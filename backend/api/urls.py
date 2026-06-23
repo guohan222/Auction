@@ -13,5 +13,7 @@ urlpatterns = [
 
     path('news/<int:pk>', news.NewsDetailView.as_view()),
     path('comment/', news.CommentView.as_view()),
+    path('favor/', news.FavorView.as_view()),
+    path('comment/favor/', news.CommentFavorView.as_view()),
 
 ]

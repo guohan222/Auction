@@ -24,13 +24,16 @@ class ReachButtonFilter(BaseFilterBackend):
 
 class CommentFilter(BaseFilterBackend):
     """
-    查某条评论的子评论
+    查某条根评论的所有子评论（按 root 过滤）
     """
     def filter_queryset(self, request, queryset, view):
         comment_id = request.query_params.get('comment_id')
         if not comment_id:
             return queryset
-        return queryset.filter(reply_id=comment_id)
+            # 验证 comment_id 必须是有效数字
+        if not comment_id.isdigit():
+            return queryset
+        return queryset.filter(root_id=comment_id)
 
 
 class NewsFilter(BaseFilterBackend):
@@ -38,7 +41,13 @@ class NewsFilter(BaseFilterBackend):
         news_id = request.query_params.get('news_id')
         if not news_id:
             return queryset
-        return queryset.filter(news_id=news_id,depth=1)
+        # 如果同时提供了 comment_id（获取子评论），则不强制 depth=1
+        comment_id = request.query_params.get('comment_id')
+        if comment_id:
+            return queryset.filter(news_id=news_id)
+
+        # 默认只获取根评论
+        return queryset.filter(news_id=news_id, depth=1)
 
 
 

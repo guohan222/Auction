@@ -38,12 +38,27 @@
 
 /* ══════════ 互动统计 ══════════ */
 .d-stats {
-  display: flex; align-items: center;
+  display: flex; align-items: center; flex-wrap: wrap;
   margin: 20rpx 30rpx; background-color: #FFFFFF;
   border-radius: 16rpx; padding: 28rpx 40rpx; gap: 60rpx;
 }
 .d-stat { display: flex; align-items: center; font-size: 26rpx; color: #666666; }
 .d-stat-icon { margin-right: 10rpx; font-size: 28rpx; }
+
+/* 可点赞 */
+.d-stat-action { cursor: pointer; }
+.d-stat-action:active { opacity: 0.6; }
+.stat-favored .d-stat-icon { transform: scale(1.15); }
+
+/* 分享按钮 — 原生 button 去样式 */
+.d-stat-share { display: flex; align-items: center; }
+.share-btn-native {
+  display: flex; align-items: center;
+  background: none; border: none; outline: none;
+  padding: 0; margin: 0; line-height: 1;
+  font-size: 26rpx; color: #666666;
+}
+.share-btn-native::after { border: none; }
 
 /* ══════════ 通用区块 ══════════ */
 .d-section {
@@ -86,36 +101,28 @@
 .c-content { font-size: 28rpx; color: #333333; line-height: 1.6; display: block; margin-bottom: 12rpx; }
 .c-actions { display: flex; gap: 32rpx; }
 .c-action { font-size: 24rpx; color: #999999; }
+.c-action-favor:active { opacity: 0.6; }
+.c-favored { color: #E8836E; }
 
 /* 二级回复 */
 .c-children {
   margin-top: 16rpx; padding: 16rpx 20rpx;
   background-color: #F8F8F8; border-radius: 8rpx;
 }
-.c-child { position: relative; padding: 8rpx 60rpx 8rpx 0; font-size: 26rpx; line-height: 1.6; }
+.c-child { position: relative; padding: 8rpx 0; font-size: 26rpx; line-height: 1.6; }
 .c-child-name { color: #576B95; }
 .c-child-reply { color: #999999; }
 .c-child-colon { color: #999999; }
 .c-child-content { color: #333333; }
-.c-child-reply-btn {
-  position: absolute; right: 0; top: 8rpx;
-  font-size: 22rpx; color: #999999;
-}
+.c-child-actions { display: flex; gap: 20rpx; margin-top: 6rpx; }
+.c-child-reply-btn { font-size: 22rpx; color: #999999; }
+.c-child-favor-btn { font-size: 22rpx; color: #999999; }
+.c-child-favor-btn:active { opacity: 0.6; }
 
 /* 展开按钮 */
 .c-expand {
   margin-top: 14rpx; padding: 12rpx 0;
   font-size: 24rpx; color: #576B95;
-}
-
-/* 二级回复按钮 */
-.c-child { position: relative; padding: 8rpx 20rpx 8rpx 0; font-size: 26rpx; line-height: 1.6; }
-.c-child-name { color: #576B95; }
-.c-child-reply { color: #999999; }
-.c-child-colon { color: #999999; }
-.c-child-content { color: #333333; }
-.c-child-reply-btn {
-  font-size: 22rpx; color: #999999; margin-left: 12rpx;
 }
 
 /* ══════════ 底部评论栏 ══════════ */
@@ -143,6 +150,7 @@
   border-radius: 36rpx; padding: 0 28rpx; font-size: 28rpx; color: #333333;
 }
 .comment-placeholder { color: #BBBBBB; }
+.input-disabled { opacity: 0.6; }
 .comment-send {
   flex-shrink: 0; margin-left: 16rpx;
   padding: 0 24rpx; height: 72rpx;

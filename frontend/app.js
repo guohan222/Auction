@@ -13,6 +13,45 @@ App({
 
   globalData: { userinfo: '' },
 
+  // ══════════════════════ 登录态工具 ══════════════════════
+
+  /**
+   * 是否已登录（有有效 token）
+   */
+  isLoggedIn: function () {
+    var info = this.globalData.userinfo;
+    return !!(info && info.token);
+  },
+
+  /**
+   * 要求登录 — 未登录时弹窗引导，返回 false；已登录返回 true
+   * 用于按钮点击时的前置拦截
+   */
+  requireLogin: function () {
+    if (this.isLoggedIn()) return true;
+    wx.showModal({
+      title: '需要登录',
+      content: '登录后才能使用此功能',
+      confirmText: '去登录',
+      success: function (res) {
+        if (res.confirm) {
+          wx.navigateTo({ url: '/pages/login/login' });
+        }
+      }
+    });
+    return false;
+  },
+
+  /**
+   * 强制跳转登录（清除旧登录态）
+   */
+  redirectLogin: function () {
+    this.exitUserInfo();
+    wx.navigateTo({ url: '/pages/login/login' });
+  },
+
+  // ══════════════════════ 用户信息管理 ══════════════════════
+
   // 初始化用户信息
   initUserInfo: function (res, e) {
     // res: {token, phone}  来自后端登录接口返回

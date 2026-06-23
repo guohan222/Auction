@@ -55,6 +55,8 @@
 .wf-nickname { font-size: 22rpx; color: #999999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .wf-stats { flex-shrink: 0; }
 .wf-stat { font-size: 22rpx; color: #BBBBBB; }
+.wf-stat-btn { padding: 4rpx 6rpx; }
+.wf-stat-btn:active { opacity: 0.6; }
 
 /* 底部 */
 .feed-footer { text-align: center; padding: 30rpx 0 50rpx; }

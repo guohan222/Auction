@@ -1,6 +1,7 @@
 // pages/publish/publish.js
 const COS = require('../../utils/cos-wx-sdk-v5.js');
 const { post } = require('../../utils/request');
+var app = getApp();
 
 Page({
   data: {
@@ -13,7 +14,8 @@ Page({
     remindUser: '',      // 提醒好友
     maxLength: 300,
     canSubmit: false,
-    submitting: false    // 防止重复提交
+    submitting: false,   // 防止重复提交
+    isLoggedIn: false    // 登录态
   },
 
   // ══════════════════════ COS ══════════════════════
@@ -79,7 +81,7 @@ Page({
     const hasImg = this.data.imgList.length > 0;
     const allDone = this.data.imgList.length === this.data.cosUrls.length &&
       this.data.cosUrls.every(item => item && item.url);
-    this.setData({ canSubmit: (hasContent || hasImg) && allDone && !this.data.submitting });
+    this.setData({ canSubmit: (hasContent || hasImg) && allDone && !this.data.submitting && this.data.isLoggedIn });
   },
 
   // ══════════════════════ 文案 ══════════════════════
@@ -92,6 +94,8 @@ Page({
   // ══════════════════════ 图片 ══════════════════════
 
   async onAddImage() {
+    if (!app.requireLogin()) return;
+
     const remain = 9 - this.data.imgList.length;
     if (remain <= 0) { wx.showToast({ title: '最多9张', icon: 'none' }); return; }
 
@@ -154,6 +158,7 @@ Page({
   // ══════════════════════ 位置 / 话题 / 提醒 ══════════════════════
 
   onChooseLocation() {
+    if (!app.requireLogin()) return;
     wx.chooseLocation({
       success: res => { this.setData({ locationInfo: res.name || res.address }); },
       fail: () => {}
@@ -161,16 +166,20 @@ Page({
   },
 
   onGoTopic() {
+    if (!app.requireLogin()) return;
     wx.navigateTo({ url: '/pages/topic/topic?topic=' + encodeURIComponent(this.data.selectTopic) });
   },
 
   onRemind() {
+    if (!app.requireLogin()) return;
     wx.showToast({ title: '好友选择页待对接', icon: 'none' });
   },
 
   // ══════════════════════ 发布 ══════════════════════
 
   async submitPublish() {
+    // 未登录拦截
+    if (!app.requireLogin()) return;
     if (!this.data.canSubmit || this.data.submitting) return;
 
     // 兜底
@@ -206,8 +215,10 @@ Page({
       // 发布成功 → 跳转结果页
       wx.redirectTo({ url: '/pages/result/result' });
     } catch (err) {
-      console.error('[发布] 失败:', err);
-      wx.showToast({ title: '发布失败，请重试', icon: 'none' });
+      if (err.message !== 'UNAUTHORIZED') {
+        console.error('[发布] 失败:', err);
+        wx.showToast({ title: '发布失败，请重试', icon: 'none' });
+      }
     } finally {
       this.setData({ submitting: false });
       this.refreshSubmit();
@@ -217,7 +228,14 @@ Page({
   // ══════════════════════ 生命周期 ══════════════════════
 
   onLoad() {},
-  onShow() {},
+
+  onShow() {
+    // 每次显示时刷新登录态
+    const loggedIn = app.isLoggedIn();
+    this.setData({ isLoggedIn: loggedIn });
+    this.refreshSubmit();
+  },
+
   onReady() {},
   onHide() {},
   onUnload() {}

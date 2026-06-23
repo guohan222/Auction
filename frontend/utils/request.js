@@ -6,6 +6,20 @@
 const BASE_URL = 'http://127.0.0.1:8000';
 
 /**
+ * 处理 401 未登录
+ * 清除本地登录态并跳转登录页
+ */
+function handleUnauthorized() {
+  const app = getApp();
+  app.exitUserInfo();
+  wx.showToast({ title: '请先登录', icon: 'none', duration: 1500 });
+  // 延迟跳转，让 toast 展示
+  setTimeout(() => {
+    wx.navigateTo({ url: '/pages/login/login' });
+  }, 1500);
+}
+
+/**
  * 统一请求
  */
 function request(options = {}) {
@@ -29,6 +43,15 @@ function request(options = {}) {
       header: headers,
       success(res) {
         if (loading) wx.hideLoading();
+
+        // 401/403 → token 失效或未登录，清除登录态并跳转
+        if (res.statusCode === 401 || res.statusCode === 403) {
+          handleUnauthorized();
+          reject(new Error('UNAUTHORIZED'));
+          return;
+        }
+
+        // 其他 HTTP 错误（4xx/5xx）仍 resolve，由调用方自行判断
         resolve(res.data);
       },
       fail(err) {

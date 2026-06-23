@@ -1,4 +1,21 @@
 <!-- pages/detail/detail.wxml - 动态详情 -->
+
+<!-- ══════════ 递归子评论模板 ══════════ -->
+<template name="nested-child">
+  <view class="c-child" wx:for="{{list}}" wx:key="id" wx:for-item="ch">
+    <text class="c-child-name">{{ch.user__nickname}}</text>
+    <text class="c-child-reply" wx:if="{{ch.reply__user__nickname}}"> 回复 </text>
+    <text class="c-child-name" wx:if="{{ch.reply__user__nickname}}">{{ch.reply__user__nickname}}</text>
+    <text class="c-child-colon">：</text>
+    <text class="c-child-content">{{ch.content}}</text>
+    <view class="c-child-actions">
+      <text class="c-child-reply-btn" catchtap="onReply" data-id="{{ch.id}}" data-name="{{ch.user__nickname}}" data-root="{{rootId}}">回复</text>
+      <text class="c-child-favor-btn {{ch._isFavor ? 'c-favored' : ''}}" catchtap="onToggleCommentFavor" data-id="{{ch.id}}">{{ch._isFavor ? '❤️' : '🤍'}} {{ch.favor_count||0}}</text>
+    </view>
+    <template wx:if="{{ch.children && ch.children.length > 0}}" is="nested-child" data="{{list: ch.children, rootId: rootId}}" />
+  </view>
+</template>
+
 <view class="page-container" wx:if="{{!loading}}">
 
   <!-- ══════════ 用户头部 ══════════ -->
@@ -37,9 +54,24 @@
 
   <!-- ══════════ 互动统计 ══════════ -->
   <view class="d-stats">
-    <view class="d-stat"><text class="d-stat-icon">❤️</text><text>{{detail.favor_count||0}}</text></view>
-    <view class="d-stat"><text class="d-stat-icon">💬</text><text>{{comment_count||detail.comment_count||0}}</text></view>
-    <view class="d-stat"><text class="d-stat-icon">👁</text><text>{{detail.viewer_count||0}}</text></view>
+    <view class="d-stat d-stat-action {{isFavor ? 'stat-favored' : ''}}" bindtap="onToggleFavor">
+      <text class="d-stat-icon">{{isFavor ? '❤️' : '🤍'}}</text>
+      <text>{{favorCount||detail.favor_count||0}}</text>
+    </view>
+    <view class="d-stat">
+      <text class="d-stat-icon">💬</text>
+      <text>{{comment_count||detail.comment_count||0}}</text>
+    </view>
+    <view class="d-stat">
+      <text class="d-stat-icon">👁</text>
+      <text>{{detail.viewer_count||0}}</text>
+    </view>
+    <view class="d-stat d-stat-share">
+      <button class="share-btn-native" open-type="share">
+        <text class="d-stat-icon">🔗</text>
+        <text>分享</text>
+      </button>
+    </view>
   </view>
 
   <!-- ══════════ 浏览记录 ══════════ -->
@@ -66,60 +98,55 @@
       <text>暂无评论，来说两句吧</text>
     </view>
 
-    <view class="comment-tree" wx:else>
-      <block wx:for="{{commentTree}}" wx:key="id">
-        <!-- ══════ 一级评论 ══════ -->
-        <view class="comment-item">
-          <view class="c-avatar" style="background-color:#E0E0E0;">
-            <text wx:if="{{!item.user__avatar}}">{{item.user__nickname[0]}}</text>
-            <image wx:else src="{{item.user__avatar}}" mode="aspectFill" />
+    <block wx:for="{{commentTree}}" wx:key="id" wx:for-item="root">
+
+      <!-- ══════ 根评论 ══════ -->
+      <view class="comment-item">
+        <view class="c-avatar" style="background-color:#E0E0E0;">
+          <text wx:if="{{!root.user__avatar}}">{{root.user__nickname[0]}}</text>
+          <image wx:else src="{{root.user__avatar}}" mode="aspectFill" />
+        </view>
+        <view class="c-body">
+          <view class="c-meta">
+            <text class="c-name">{{root.user__nickname}}</text>
+            <text class="c-date">{{root.create_date}}</text>
           </view>
-          <view class="c-body">
-            <view class="c-meta">
-              <text class="c-name">{{item.user__nickname}}</text>
-              <text class="c-date">{{item.create_date}}</text>
-            </view>
-            <text class="c-content">{{item.content}}</text>
-            <view class="c-actions">
-              <text class="c-action" bindtap="onReply" data-id="{{item.id}}" data-name="{{item.user__nickname}}">回复</text>
-              <text class="c-action">❤️ {{item.favor_count||0}}</text>
-            </view>
+          <text class="c-content">{{root.content}}</text>
+          <view class="c-actions">
+            <text class="c-action" bindtap="onReply" data-id="{{root.id}}" data-name="{{root.user__nickname}}">回复</text>
+            <text class="c-action c-action-favor {{root._isFavor ? 'c-favored' : ''}}" catchtap="onToggleCommentFavor" data-id="{{root.id}}">{{root._isFavor ? '❤️' : '🤍'}} {{root.favor_count||0}}</text>
+          </view>
 
-            <!-- 子回复区 -->
-            <view class="c-children" wx:if="{{item.children && item.children.length > 0}}">
-              <view class="c-child" wx:for="{{item.children}}" wx:key="id" wx:for-item="child">
-                <text class="c-child-name">{{child.user__nickname}}</text>
-                <text class="c-child-reply" wx:if="{{child.reply__user__nickname}}"> 回复 </text>
-                <text class="c-child-name" wx:if="{{child.reply__user__nickname}}">{{child.reply__user__nickname}}</text>
-                <text class="c-child-colon">：</text>
-                <text class="c-child-content">{{child.content}}</text>
-                <text class="c-child-reply-btn" bindtap="onReply" data-id="{{child.id}}" data-name="{{child.user__nickname}}" data-root="{{item.id}}">回复</text>
-              </view>
+          <!-- ★ 子评论区 ★ -->
+          <view class="c-children" wx:if="{{root.children && root.children.length > 0}}">
+            <template is="nested-child" data="{{list: root.children, rootId: root.id}}" />
 
-              <view class="c-expand" bindtap="onExpandChildren" data-id="{{item.id}}">
-                <text wx:if="{{expandingId===item.id}}">加载中...</text>
-                <text wx:elif="{{item._expanded}}">收起回复</text>
-                <text wx:else>查看全部回复</text>
-              </view>
+            <!-- 已加载全部 -->
+            <view class="c-expand" wx:if="{{root._childMinId && root._childNomore}}">
+              <text style="color:#CCCCCC;">— 已加载全部回复 —</text>
             </view>
+            <!-- 加载更多 -->
+            <view class="c-expand" wx:elif="{{root._childMinId && !root._childNomore}}" bindtap="onLoadMoreChildren" data-id="{{root.id}}">
+              <text wx:if="{{root._childLoading}}">加载中...</text>
+              <text wx:else>加载更多回复</text>
+            </view>
+          </view>
 
-            <!-- 无子回复，但可展开 -->
-            <view class="c-expand" wx:elif="{{!item._expanded}}" bindtap="onExpandChildren" data-id="{{item.id}}">
-              <text wx:if="{{expandingId===item.id}}">加载中...</text>
-              <text wx:else>查看回复</text>
-            </view>
-            <view class="c-expand" wx:else bindtap="onExpandChildren" data-id="{{item.id}}">
-              <text>收起回复</text>
-            </view>
+          <!-- ★ 展开 / 收起 / 加载中 ★ -->
+          <view class="c-expand" bindtap="onExpandChildren" data-id="{{root.id}}">
+            <text wx:if="{{root._childLoading}}">加载中...</text>
+            <text wx:elif="{{root._expanded}}">收起回复</text>
+            <text wx:else>查看回复</text>
           </view>
         </view>
-      </block>
-    </view>
+      </view>
 
-    <!-- 加载更多一级评论 -->
+    </block>
+
+    <!-- ★ 加载更多根评论 ★ -->
     <view class="load-more" wx:if="{{commentTree.length > 0}}">
-      <text wx:if="{{commentLoading}}">加载中...</text>
-      <text wx:elif="{{commentNomore}}">— 没有更多评论了 —</text>
+      <text wx:if="{{rootLoading}}">加载中...</text>
+      <text wx:elif="{{rootNomore}}">— 没有更多评论了 —</text>
       <text wx:else bindtap="onLoadMoreComments">加载更多评论</text>
     </view>
   </view>
@@ -135,17 +162,19 @@
   </view>
   <view class="comment-bar-row">
     <input
-      class="comment-input"
+      class="comment-input {{isLoggedIn ? '' : 'input-disabled'}}"
       value="{{commentText}}"
       bindinput="onCommentInput"
-      placeholder="{{replyTo ? '' : '说点什么...'}}"
+      bindtap="onCommentTap"
+      placeholder="{{isLoggedIn ? (replyTo ? '' : '说点什么...') : '登录后参与评论'}}"
       placeholder-class="comment-placeholder"
       confirm-type="send"
       bindconfirm="onPostComment"
       adjust-position="{{false}}"
       cursor-spacing="20"
+      disabled="{{!isLoggedIn}}"
     />
-    <view class="comment-send {{commentText ? 'send-active' : ''}}" bindtap="onPostComment">
+    <view class="comment-send {{commentText && isLoggedIn ? 'send-active' : ''}}" bindtap="onPostComment">
       <text>发送</text>
     </view>
   </view>

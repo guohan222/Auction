@@ -1,5 +1,6 @@
 // pages/index/index.js - 首页动态流（瀑布流）
-const { get } = require('../../utils/request');
+const { get, post } = require('../../utils/request');
+var app = getApp();
 
 Page({
   data: {
@@ -105,6 +106,36 @@ Page({
       console.error('[首页] 上拉加载失败:', err);
     }
     this.setData({ loadingMore: false });
+  },
+
+  // ══════════════════════ 点赞 ══════════════════════
+
+  async onToggleFavor(e) {
+    // 未登录拦截
+    if (!app.requireLogin()) return;
+
+    const newsId = Number(e.currentTarget.dataset.id);
+    try {
+      const res = await post('/api/favor/', { news: newsId }, { loading: false });
+      wx.showToast({ title: res.is_favor ? '点赞成功' : '已取消点赞', icon: 'none', duration: 1000 });
+      // 更新列表中对应项的 favor_count
+      this._updateFavorCount(newsId, res.favor_count);
+    } catch (err) {
+      if (err.message !== 'UNAUTHORIZED') {
+        wx.showToast({ title: '操作失败', icon: 'none' });
+      }
+    }
+  },
+
+  _updateFavorCount(newsId, newCount) {
+    const newsList = this.data.newsList.map(item => {
+      if (item.id == newsId) {
+        return { ...item, favor_count: newCount };
+      }
+      return item;
+    });
+    // 重新分列
+    this._setList(newsList);
   },
 
   // ══════════════════════ 跳转详情 ══════════════════════
