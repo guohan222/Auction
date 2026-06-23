@@ -47,10 +47,18 @@ class LoginView(APIView):
     def post(self, request,*args,**kwargs):
         ser = LoginSerializer(data=request.data)
         if not ser.is_valid():
-            return Response({'status':False,'message':'验证码错误'})
+            print("序列化器真实错误：", ser.errors)
+            # 精准区分错误类型
+            if "code" in ser.errors:
+                return Response({'status': False, 'message': '验证码错误'})
+            else:
+                return Response({'status': False, 'message': ser.errors})
         phone = ser.validated_data.get('phone')
+        nickname = ser.validated_data.get('nickname')
+        avatar = ser.validated_data.get('avatar')
+
         # flag表示是否为新创建的，True表示是新创建的
-        user_obj, flag = models.UserInfo.objects.get_or_create(phone=phone)
+        user_obj, flag = models.UserInfo.objects.get_or_create(phone=phone,defaults={'nickname':nickname,'avatar':avatar})
         user_obj.token = str(uuid.uuid4())
         user_obj.save()
         return Response({'status':True,'data':{'token':user_obj.token,'phone':phone}})

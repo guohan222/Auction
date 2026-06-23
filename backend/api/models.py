@@ -9,7 +9,7 @@ class UserInfo(models.Model):
     # token = models.CharField(verbose_name='用户Token', max_length=64, unique=True)
     token = models.CharField(verbose_name='用户Token', max_length=64, null=True,blank=True)
     nickname = models.CharField(verbose_name='昵称', max_length=64)
-    avatar = models.CharField(verbose_name='头像', max_length=64, null=True)
+    avatar = models.CharField(verbose_name='头像', max_length=64)
 
 
 

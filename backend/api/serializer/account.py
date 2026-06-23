@@ -15,6 +15,8 @@ class MessageSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     phone = serializers.CharField(label='手机号',validators=[phone_validator,])
     code = serializers.CharField(label='短信验证码',)
+    nickname = serializers.CharField(label='昵称')
+    avatar = serializers.CharField(label='头像')
 
     def validate_code(self, value):
         if len(value) != 6:

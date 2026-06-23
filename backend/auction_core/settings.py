@@ -123,6 +123,22 @@ STATIC_URL = 'static/'
 
 
 
+
+###################################### DRF配置 #######################################
+
+REST_FRAMEWORK = {
+    'UNAUTHENTICATED_USER': None,
+    'UNAUTHENTICATED_': None,
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'utils.auth.GeneralAuthentication',
+    ]
+}
+
+
+
+
+
+
 ####################################### 配置 ##########################################
 
 # redis
