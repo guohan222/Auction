@@ -1,0 +1,69 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/auction/auction",
+    "pages/publish/publish",
+    "pages/messages/messages",
+    "pages/mine/mine",
+    "pages/topic/topic",
+    "pages/detail/detail",
+    "pages/login/login",
+    "pages/result/result"
+  ],
+  "requiredPrivateInfos": [
+    "chooseLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于选择收货地址、定位打卡，获取位置信息"
+    }
+  },
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Auaction",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#F5F5F5"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#00B6B9",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabbar/主页.png",
+        "selectedIconPath": "static/tabbar/主页选中.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/auction/auction",
+        "iconPath": "static/tabbar/拍卖.png",
+        "selectedIconPath": "static/tabbar/拍卖选中.png",
+        "text": "拍卖"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "iconPath": "static/tabbar/发布.png",
+        "selectedIconPath": "static/tabbar/发布选中.png",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/messages/messages",
+        "iconPath": "static/tabbar/消息.png",
+        "selectedIconPath": "static/tabbar/消息选中.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "static/tabbar/mine.png",
+        "selectedIconPath": "static/tabbar/mine选中.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "Auaction",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#F5F5F5"
+}

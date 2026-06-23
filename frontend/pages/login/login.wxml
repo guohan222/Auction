@@ -1,0 +1,61 @@
+<!--pages/test/test.wxml-->
+<view class="page-container">
+
+  <!-- 登录标题 -->
+  <view class="login-header">
+    <text class="login-title">账号登录</text>
+    <text class="login-sub">验证码快捷登录</text>
+  </view>
+
+  <!-- 手机号输入 -->
+  <view class="input-group {{phoneFocus ? 'input-focused' : ''}}">
+    <text class="input-icon">📱</text>
+    <input
+      class="input-field"
+      type="number"
+      maxlength="11"
+      value="{{phone}}"
+      bindinput="bindPhone"
+      bindfocus="onPhoneFocus"
+      bindblur="onPhoneBlur"
+      placeholder="请输入手机号"
+      placeholder-class="input-placeholder"
+    />
+    <view class="input-clear" wx:if="{{phone.length > 0}}" bindtap="clearPhone">
+      <text>✕</text>
+    </view>
+  </view>
+
+  <!-- 验证码输入 + 获取按钮 -->
+  <view class="input-group code-row {{codeFocus ? 'input-focused' : ''}}">
+    <text class="input-icon">🔐</text>
+    <input
+      class="input-field code-input"
+      type="number"
+      maxlength="6"
+      value="{{code}}"
+      bindinput="bindCode"
+      bindfocus="onCodeFocus"
+      bindblur="onCodeBlur"
+      placeholder="请输入验证码"
+      placeholder-class="input-placeholder"
+    />
+    <view class="input-clear" wx:if="{{code.length > 0}}" bindtap="clearCode">
+      <text>✕</text>
+    </view>
+    <view class="code-btn {{sending ? 'code-btn-disabled' : ''}}" bindtap="sendCode">
+      <text wx:if="{{sending}}">{{countdown}}s</text>
+      <text wx:else>获取验证码</text>
+    </view>
+  </view>
+
+  <!-- 登录按钮 -->
+  <button class="login-btn {{canLogin ? 'login-btn-active' : 'login-btn-disabled'}}" open-type="getUserInfo"  bindgetuserinfo="login">登 录</button>
+
+
+  <!-- 协议提示 -->
+  <view class="login-footer">
+    <text class="footer-text">登录即表示同意《用户协议》和《隐私政策》</text>
+  </view>
+
+</view>

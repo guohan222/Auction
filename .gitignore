@@ -1,0 +1,49 @@
+# 全局系统垃圾
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Python 编译缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 后端 Django 区域
+# 虚拟环境
+backend/.venv/
+# 本地私密配置【核心保护，绝对不上传】
+backend/auction_core/local_settings.py
+# 数据库文件
+backend/db.sqlite3
+backend/db.sqlite3-journal
+# 用户上传静态资源
+backend/media/
+# 打包产物、日志
+backend/dist/
+backend/build/
+backend/*.log
+
+# 微信小程序前端区域
+# Claude AI对话缓存
+frontend/.claude/
+# 小程序本地私有配置
+frontend/project.private.config.json
+# 小程序npm依赖、编译缓存
+frontend/node_modules/
+frontend/miniprogram_npm/
+frontend/.wx/
+
+# IDE 配置缓存
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# 全局兜底虚拟环境
+venv/
+.venv/
+env/
+ENV/

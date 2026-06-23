@@ -1,0 +1,152 @@
+<!-- pages/detail/detail.wxml - 动态详情 -->
+<view class="page-container" wx:if="{{!loading}}">
+
+  <!-- ══════════ 用户头部 ══════════ -->
+  <view class="d-header">
+    <view class="d-avatar" style="background-color:{{detail._avatarBg}};">
+      <text wx:if="{{!detail.user.avatar}}">{{detail._avatarChar}}</text>
+      <image wx:else src="{{detail.user.avatar}}" mode="aspectFill" />
+    </view>
+    <view class="d-user-info">
+      <text class="d-nickname">{{detail.user.nickname}}</text>
+      <text class="d-time">{{detail.create_date}}</text>
+    </view>
+  </view>
+
+  <!-- ══════════ 正文 ══════════ -->
+  <view class="d-content" wx:if="{{detail.content}}">
+    <text>{{detail.content}}</text>
+  </view>
+
+  <!-- ══════════ 图片轮播 ══════════ -->
+  <view class="d-images" wx:if="{{detail.imageList && detail.imageList.length > 0}}">
+    <swiper class="d-swiper" indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#FFFFFF">
+      <swiper-item wx:for="{{detail.imageList}}" wx:key="id">
+        <image src="{{item.cos_path}}" mode="aspectFill" class="d-swiper-img" bindtap="onPreviewImage" data-src="{{item.cos_path}}" />
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- ══════════ 话题 / 位置 ══════════ -->
+  <view class="d-topic" wx:if="{{detail.topic}}">
+    <text class="d-topic-tag">{{detail.topic.title}}</text>
+  </view>
+  <view class="d-address" wx:if="{{detail.address}}">
+    <text class="d-addr-text">📍 {{detail.address}}</text>
+  </view>
+
+  <!-- ══════════ 互动统计 ══════════ -->
+  <view class="d-stats">
+    <view class="d-stat"><text class="d-stat-icon">❤️</text><text>{{detail.favor_count||0}}</text></view>
+    <view class="d-stat"><text class="d-stat-icon">💬</text><text>{{comment_count||detail.comment_count||0}}</text></view>
+    <view class="d-stat"><text class="d-stat-icon">👁</text><text>{{detail.viewer_count||0}}</text></view>
+  </view>
+
+  <!-- ══════════ 浏览记录 ══════════ -->
+  <view class="d-section" wx:if="{{detail.viewer && detail.viewer.result.length > 0}}">
+    <view class="d-section-title"><text>浏览记录（{{detail.viewer.queryset}}）</text></view>
+    <scroll-view class="viewer-scroll" scroll-x enable-flex>
+      <view class="viewer-inner">
+        <view class="viewer-item" wx:for="{{detail.viewer.result}}" wx:key="id">
+          <view class="viewer-avatar" style="background-color:#E0E0E0;">
+            <text wx:if="{{!item.avatar}}">{{item.nickname[0]}}</text>
+            <image wx:else src="{{item.avatar}}" mode="aspectFill" />
+          </view>
+          <text class="viewer-name">{{item.nickname}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ══════════ 评论列表 ══════════ -->
+  <view class="d-section">
+    <view class="d-section-title"><text>全部评论（{{comment_count||detail.comment_count||0}}）</text></view>
+
+    <view class="comment-empty" wx:if="{{commentTree.length === 0}}">
+      <text>暂无评论，来说两句吧</text>
+    </view>
+
+    <view class="comment-tree" wx:else>
+      <block wx:for="{{commentTree}}" wx:key="id">
+        <!-- ══════ 一级评论 ══════ -->
+        <view class="comment-item">
+          <view class="c-avatar" style="background-color:#E0E0E0;">
+            <text wx:if="{{!item.user__avatar}}">{{item.user__nickname[0]}}</text>
+            <image wx:else src="{{item.user__avatar}}" mode="aspectFill" />
+          </view>
+          <view class="c-body">
+            <view class="c-meta">
+              <text class="c-name">{{item.user__nickname}}</text>
+              <text class="c-date">{{item.create_date}}</text>
+            </view>
+            <text class="c-content">{{item.content}}</text>
+            <view class="c-actions">
+              <text class="c-action" bindtap="onReply" data-id="{{item.id}}" data-name="{{item.user__nickname}}">回复</text>
+              <text class="c-action">❤️ {{item.favor_count||0}}</text>
+            </view>
+
+            <!-- 子回复区 -->
+            <view class="c-children" wx:if="{{item.children && item.children.length > 0}}">
+              <view class="c-child" wx:for="{{item.children}}" wx:key="id" wx:for-item="child">
+                <text class="c-child-name">{{child.user__nickname}}</text>
+                <text class="c-child-reply" wx:if="{{child.reply__user__nickname}}"> 回复 </text>
+                <text class="c-child-name" wx:if="{{child.reply__user__nickname}}">{{child.reply__user__nickname}}</text>
+                <text class="c-child-colon">：</text>
+                <text class="c-child-content">{{child.content}}</text>
+                <text class="c-child-reply-btn" bindtap="onReply" data-id="{{child.id}}" data-name="{{child.user__nickname}}" data-root="{{item.id}}">回复</text>
+              </view>
+
+              <view class="c-expand" bindtap="onExpandChildren" data-id="{{item.id}}">
+                <text wx:if="{{expandingId===item.id}}">加载中...</text>
+                <text wx:elif="{{item._expanded}}">收起回复</text>
+                <text wx:else>查看全部回复</text>
+              </view>
+            </view>
+
+            <!-- 无子回复，但可展开 -->
+            <view class="c-expand" wx:elif="{{!item._expanded}}" bindtap="onExpandChildren" data-id="{{item.id}}">
+              <text wx:if="{{expandingId===item.id}}">加载中...</text>
+              <text wx:else>查看回复</text>
+            </view>
+            <view class="c-expand" wx:else bindtap="onExpandChildren" data-id="{{item.id}}">
+              <text>收起回复</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 加载更多一级评论 -->
+    <view class="load-more" wx:if="{{commentTree.length > 0}}">
+      <text wx:if="{{commentLoading}}">加载中...</text>
+      <text wx:elif="{{commentNomore}}">— 没有更多评论了 —</text>
+      <text wx:else bindtap="onLoadMoreComments">加载更多评论</text>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<!-- ══════════ 底部评论输入栏 ══════════ -->
+<view class="comment-bar" wx:if="{{!loading}}">
+  <view class="comment-bar-top" wx:if="{{replyTo}}">
+    <text class="reply-hint">回复 {{replyTo}}</text>
+    <view class="reply-cancel" bindtap="onCancelReply"><text>✕</text></view>
+  </view>
+  <view class="comment-bar-row">
+    <input
+      class="comment-input"
+      value="{{commentText}}"
+      bindinput="onCommentInput"
+      placeholder="{{replyTo ? '' : '说点什么...'}}"
+      placeholder-class="comment-placeholder"
+      confirm-type="send"
+      bindconfirm="onPostComment"
+      adjust-position="{{false}}"
+      cursor-spacing="20"
+    />
+    <view class="comment-send {{commentText ? 'send-active' : ''}}" bindtap="onPostComment">
+      <text>发送</text>
+    </view>
+  </view>
+</view>

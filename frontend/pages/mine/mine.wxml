@@ -1,0 +1,115 @@
+<!-- pages/mine/mine.wxml - 我的 -->
+<view class="page-container">
+
+  <!-- Teal 渐变头部 -->
+  <view class="mine-header">
+    <!-- 用户信息行 -->
+    <view class="header-user-row">
+      <view class="header-avatar">
+        <image wx:if="{{userinfo}}" src="{{userinfo.avatarUrl}}" mode="aspectFill" style="width:100%;height:100%;"/>
+        <image wx:else src="/static/tabbar/mine.png" mode="aspectFill" style="width:100%;height:100%;"/>
+      </view>
+      <view class="header-info" wx:if="{{userinfo}}">
+        <view class="header-nickname" bindtap='logout'>{{ userinfo.nickName}}</view>
+      </view>
+      <view class="header-info" wx:else>
+        <view class="header-nickname">
+          <navigator url="/pages/login/login">登录 | 注册</navigator>
+        </view>
+      </view>
+        
+
+    </view>
+    <!-- 装饰区（积分/等级） -->
+    <view class="header-extra">
+      <view class="extra-item">
+        <text class="extra-value">2,860</text>
+        <text class="extra-label">我的积分</text>
+      </view>
+      <view class="extra-item">
+        <text class="extra-value">Lv.5</text>
+        <text class="extra-label">会员等级</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-value">36</text>
+      <text class="stat-label">出价中</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-value">128</text>
+      <text class="stat-label">参拍记录</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-value">15</text>
+      <text class="stat-label">竞得拍品</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-value">52</text>
+      <text class="stat-label">我的关注</text>
+    </view>
+  </view>
+
+  <!-- 我的订单 -->
+  <view class="section-card">
+    <view class="section-header">
+      <text class="section-title">我的订单</text>
+      <text class="section-more">全部 ›</text>
+    </view>
+    <view class="order-icons">
+      <view class="order-item">
+        <text class="order-emoji">💰</text>
+        <text class="order-label">待付款</text>
+      </view>
+      <view class="order-item">
+        <text class="order-emoji">📦</text>
+        <text class="order-label">待发货</text>
+      </view>
+      <view class="order-item">
+        <text class="order-emoji">🚚</text>
+        <text class="order-label">待收货</text>
+      </view>
+      <view class="order-item">
+        <text class="order-emoji">✅</text>
+        <text class="order-label">已完成</text>
+      </view>
+      <view class="order-item">
+        <text class="order-emoji">↩️</text>
+        <text class="order-label">退换货</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="section-card menu-card">
+    <view class="menu-row">
+      <text class="menu-icon">💳</text>
+      <text class="menu-text">我的钱包</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-row">
+      <text class="menu-icon">🎫</text>
+      <text class="menu-text">我的优惠卷</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-row" style="border-bottom:none;">
+      <text class="menu-icon">🎁</text>
+      <text class="menu-text">领卷中心</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+
+  <view class="section-card menu-card" style="margin-top:20rpx;">
+    <view class="menu-row" style="border-bottom:none;">
+      <text class="menu-icon">⚙️</text>
+      <text class="menu-text">设置</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

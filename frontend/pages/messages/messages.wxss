@@ -1,0 +1,128 @@
+/** pages/messages/messages.wxss - 消息中心样式 **/
+
+/* 顶部3个功能入口 */
+.msg-entries {
+  display: flex;
+  justify-content: space-around;
+  padding: 40rpx 50rpx 30rpx;
+  background-color: #FFFFFF;
+}
+.msg-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.entry-circle {
+  position: relative;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16rpx;
+}
+.entry-emoji {
+  font-size: 44rpx;
+}
+.entry-badge {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  min-width: 34rpx;
+  height: 34rpx;
+  line-height: 34rpx;
+  text-align: center;
+  background-color: #D34166;
+  color: #FFFFFF;
+  font-size: 20rpx;
+  font-weight: 600;
+  border-radius: 17rpx;
+  padding: 0 8rpx;
+  border: 2rpx solid #FFFFFF;
+}
+.entry-label {
+  font-size: 26rpx;
+  color: #333333;
+}
+
+/* 分割区 */
+.msg-divider {
+  height: 16rpx;
+  background-color: #F5F5F5;
+}
+
+/* 消息列表标题 */
+.msg-list-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333333;
+  padding: 30rpx 30rpx 16rpx;
+  background-color: #FFFFFF;
+}
+
+/* 消息列表 */
+.msg-list {
+  background-color: #FFFFFF;
+}
+.msg-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 30rpx;
+  position: relative;
+}
+.msg-left-accent {
+  width: 6rpx;
+  height: 48rpx;
+  border-radius: 3rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+.msg-item .msg-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.msg-body {
+  flex: 1;
+  overflow: hidden;
+}
+.msg-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+.msg-title {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+  max-width: 360rpx;
+}
+.msg-time {
+  font-size: 22rpx;
+  color: #CCCCCC;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+.msg-preview {
+  font-size: 24rpx;
+  color: #999999;
+}
+.msg-dot {
+  position: absolute;
+  right: 30rpx;
+  top: 50rpx;
+  width: 14rpx;
+  height: 14rpx;
+  background-color: #D34166;
+  border-radius: 50%;
+}

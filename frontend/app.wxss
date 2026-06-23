@@ -1,0 +1,93 @@
+/** app.wxss - 全局样式 **/
+
+page {
+  --color-primary: #00B6B9;
+  --color-primary-dark: #00A0A3;
+  --color-accent: #D34166;
+  --color-gold: #B6915A;
+  --color-bg: #F5F5F5;
+  --color-white: #FFFFFF;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-text-light: #999999;
+  --color-border: #EEEEEE;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  box-sizing: border-box;
+}
+
+/* 通用容器 */
+.page-container {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+/* 通用卡片 */
+.card {
+  background-color: var(--color-white);
+  border-radius: 16rpx;
+  margin: 20rpx 30rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+/* 通用按钮 - 主色 */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+/* 通用按钮 - 强调色 */
+.btn-accent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+/* 单行文本省略 */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* flex 布局快捷类 */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

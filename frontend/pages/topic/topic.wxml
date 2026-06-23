@@ -1,0 +1,34 @@
+<!-- pages/topic/topic.wxml - 选择话题 -->
+<view class="page-container">
+
+  <!-- 空状态 -->
+  <view class="topic-empty" wx:if="{{!loading && topicList.length === 0}}">
+    <text class="empty-icon">📋</text>
+    <text class="empty-text">暂无话题</text>
+  </view>
+
+  <view class="topic-list" wx:else>
+    <view
+      class="topic-item {{item.title === selected ? 'topic-selected' : ''}}"
+      wx:for="{{topicList}}"
+      wx:key="id"
+      bindtap="onSelectTopic"
+      data-item="{{item}}"
+    >
+      <view class="topic-left">
+        <text class="topic-name">#{{item.title}}</text>
+      </view>
+      <view class="topic-right">
+        <text class="topic-count">{{item.count}}人参与</text>
+        <text class="topic-check" wx:if="{{item.title === selected}}">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="topic-footer" wx:if="{{topicList.length > 0}}">
+    <text wx:if="{{loadingMore}}">加载中...</text>
+    <text wx:elif="{{nomore}}">— 没有更多了 —</text>
+  </view>
+
+</view>

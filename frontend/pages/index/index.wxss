@@ -1,0 +1,61 @@
+/** pages/index/index.wxss - 首页瀑布流 **/
+
+.search-bar { padding: 20rpx 30rpx; background-color: #FFFFFF; }
+.search-input {
+  display: flex; align-items: center; height: 72rpx;
+  background-color: #F5F5F5; border-radius: 36rpx; padding: 0 30rpx;
+}
+.search-icon { font-size: 28rpx; margin-right: 12rpx; }
+.search-placeholder { font-size: 28rpx; color: #999999; }
+
+/* 空状态 */
+.feed-empty { display: flex; flex-direction: column; align-items: center; padding-top: 200rpx; }
+.empty-icon { font-size: 100rpx; margin-bottom: 24rpx; }
+.empty-text { font-size: 28rpx; color: #BBBBBB; }
+
+/* 瀑布流 */
+.waterfall { display: flex; padding: 16rpx 16rpx 0; gap: 16rpx; }
+.wf-col { flex: 1; display: flex; flex-direction: column; gap: 16rpx; }
+
+/* 卡片 */
+.wf-card {
+  background-color: #FFFFFF; border-radius: 12rpx; overflow: hidden;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
+}
+
+/* 封面图 */
+.wf-cover { width: 100%; }
+.wf-cover image { width: 100%; display: block; background-color: #F5F5F5; }
+
+/* 正文区 */
+.wf-body { padding: 16rpx 20rpx 20rpx; }
+.wf-content {
+  font-size: 28rpx; color: #333333; line-height: 1.6;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
+  overflow: hidden; margin-bottom: 12rpx;
+}
+
+/* 话题 */
+.wf-topic { margin-bottom: 14rpx; }
+.wf-topic-tag {
+  font-size: 22rpx; color: #00B6B9;
+  background-color: #F0FAFA; padding: 4rpx 14rpx; border-radius: 6rpx;
+}
+
+/* 底部行 */
+.wf-footer { display: flex; align-items: center; justify-content: space-between; }
+.wf-user { display: flex; align-items: center; flex: 1; overflow: hidden; }
+.wf-avatar {
+  width: 44rpx; height: 44rpx; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-right: 10rpx; overflow: hidden;
+  font-size: 20rpx; color: #FFFFFF; font-weight: 600;
+}
+.wf-avatar image { width: 100%; height: 100%; }
+.wf-nickname { font-size: 22rpx; color: #999999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wf-stats { flex-shrink: 0; }
+.wf-stat { font-size: 22rpx; color: #BBBBBB; }
+
+/* 底部 */
+.feed-footer { text-align: center; padding: 30rpx 0 50rpx; }
+.feed-footer text { font-size: 24rpx; color: #CCCCCC; }

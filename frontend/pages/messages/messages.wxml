@@ -1,0 +1,39 @@
+<!-- pages/messages/messages.wxml - 消息中心 -->
+<view class="page-container">
+
+  <!-- 顶部3个功能入口 -->
+  <view class="msg-entries">
+    <view class="msg-entry" wx:for="{{entries}}" wx:key="id">
+      <view class="entry-circle" style="background-color: {{item.bg}};">
+        <text class="entry-emoji">{{item.icon}}</text>
+        <view class="entry-badge" wx:if="{{item.badge > 0}}">{{item.badge > 99 ? '99+' : item.badge}}</view>
+      </view>
+      <text class="entry-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- 分割区 -->
+  <view class="msg-divider"></view>
+
+  <!-- 系统消息列表 -->
+  <view class="msg-list-title">系统消息</view>
+
+  <view class="msg-list">
+    <view class="msg-item" wx:for="{{messages}}" wx:key="id">
+      <view class="msg-left-accent" style="background-color: {{item.accentColor}};"></view>
+      <view class="msg-avatar" style="background-color: {{item.avatarBg}};">
+        <text>{{item.avatar}}</text>
+      </view>
+      <view class="msg-body">
+        <view class="msg-top">
+          <text class="msg-title text-ellipsis">{{item.title}}</text>
+          <text class="msg-time">{{item.time}}</text>
+        </view>
+        <text class="msg-preview text-ellipsis">{{item.preview}}</text>
+      </view>
+      <view class="msg-dot" wx:if="{{item.unread}}"></view>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

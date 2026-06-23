@@ -1,0 +1,80 @@
+/** pages/result/result.wxss **/
+
+.page-container {
+  min-height: 100vh;
+  background-color: #F5F5F5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 50rpx;
+}
+
+/* 成功图标 */
+.result-icon-wrap {
+  padding-top: 160rpx;
+  padding-bottom: 48rpx;
+}
+.result-icon {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00B6B9, #00D4D8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.result-icon text {
+  font-size: 72rpx;
+  color: #FFFFFF;
+}
+
+/* 文案 */
+.result-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 80rpx;
+}
+.result-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 20rpx;
+}
+.result-desc {
+  font-size: 26rpx;
+  color: #999999;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* 操作按钮 */
+.result-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+.result-btn {
+  height: 96rpx;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+.result-btn-outline {
+  background-color: #FFFFFF;
+  border: 2rpx solid #00B6B9;
+  color: #00B6B9;
+}
+.result-btn-outline text {
+  color: #00B6B9;
+}
+.result-btn-primary {
+  background: linear-gradient(135deg, #00B6B9, #00D4D8);
+}
+.result-btn-primary text {
+  color: #FFFFFF;
+}

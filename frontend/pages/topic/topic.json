@@ -1,0 +1,6 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "选择话题",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#F5F5F5"
+}

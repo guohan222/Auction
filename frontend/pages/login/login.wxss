@@ -1,0 +1,133 @@
+/* pages/test/test.wxss */
+
+.page-container {
+  min-height: 100vh;
+  background-color: #F5F5F5;
+  padding: 0 40rpx;
+}
+
+/* 登录标题 */
+.login-header {
+  display: flex;
+  flex-direction: column;
+  padding: 100rpx 0 60rpx;
+}
+.login-title {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 16rpx;
+}
+.login-sub {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+/* 输入组 */
+.input-group {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+  background-color: #FFFFFF;
+  border: 2rpx solid #EEEEEE;
+  border-radius: 16rpx;
+  padding: 0 24rpx;
+  margin-bottom: 28rpx;
+  transition: border-color 0.2s;
+}
+.input-focused {
+  border-color: #00B6B9;
+}
+
+.input-icon {
+  font-size: 36rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.input-field {
+  flex: 1;
+  height: 100%;
+  font-size: 30rpx;
+  color: #333333;
+}
+.input-placeholder {
+  color: #CCCCCC;
+}
+
+/* 清空按钮 */
+.input-clear {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background-color: #DDDDDD;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.input-clear text {
+  font-size: 22rpx;
+  color: #FFFFFF;
+}
+
+/* 验证码行 */
+.code-row {
+  padding-right: 16rpx;
+}
+.code-input {
+  max-width: 340rpx;
+}
+
+/* 获取验证码按钮 */
+.code-btn {
+  flex-shrink: 0;
+  height: 64rpx;
+  padding: 0 24rpx;
+  border-radius: 32rpx;
+  background-color: #00B6B9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8rpx;
+}
+.code-btn text {
+  font-size: 24rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+.code-btn-disabled {
+  background-color: #BBBBBB;
+}
+
+/* 登录按钮 */
+.login-btn {
+  height: 96rpx;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 48rpx;
+}
+.login-btn text {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+.login-btn-active {
+  background: linear-gradient(135deg, #00B6B9, #00D4D8);
+}
+.login-btn-disabled {
+  background-color: #CCCCCC;
+}
+
+/* 底部协议 */
+.login-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40rpx;
+}
+.footer-text {
+  font-size: 24rpx;
+  color: #BBBBBB;
+}

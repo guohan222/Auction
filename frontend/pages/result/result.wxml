@@ -1,0 +1,27 @@
+<!-- pages/result/result.wxml - 发布结果提示页 -->
+<view class="page-container">
+
+  <!-- 顶部成功图标 -->
+  <view class="result-icon-wrap">
+    <view class="result-icon">
+      <text>✓</text>
+    </view>
+  </view>
+
+  <!-- 提示文案 -->
+  <view class="result-text">
+    <text class="result-title">发布成功</text>
+    <text class="result-desc">【此处自行编写业务逻辑】后端接口返回成功后跳转至此页</text>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="result-actions">
+    <view class="result-btn result-btn-outline" bindtap="onContinuePublish">
+      <text>继续发布</text>
+    </view>
+    <view class="result-btn result-btn-primary" bindtap="onGoHome">
+      <text>返回首页</text>
+    </view>
+  </view>
+
+</view>

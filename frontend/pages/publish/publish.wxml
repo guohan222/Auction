@@ -1,0 +1,74 @@
+<!-- pages/publish/publish.wxml - 发布动态 -->
+<view class="page-container">
+
+  <!-- ══════════ 素材上传区 ══════════ -->
+  <view class="media-row">
+    <view class="media-btn full-width" bindtap="onAddImage">
+      <text class="media-icon">🖼</text>
+      <text class="media-label">+图片</text>
+    </view>
+  </view>
+
+  <!-- 图片预览区（横向滚动） -->
+  <view class="img-section" wx:if="{{imgList.length > 0}}">
+    <scroll-view class="img-scroll" scroll-x enable-flex>
+      <view class="img-inner">
+        <view class="img-item" wx:for="{{imgList}}" wx:key="index">
+          <image class="img-thumb" src="{{item}}" mode="aspectFill" bindtap="onPreviewImage" data-src="{{item}}" />
+          <!-- 上传中蒙层 -->
+          <view class="img-upload-mask" wx:if="{{!cosUrls[index] || !cosUrls[index].url}}">
+            <text class="img-upload-text">上传中</text>
+          </view>
+          <view class="img-delete" bindtap="onDeleteImage" data-index="{{index}}">
+            <text>✕</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- ══════════ 文案输入区 ══════════ -->
+  <view class="textarea-wrap">
+    <textarea
+      class="textarea-input"
+      value="{{content}}"
+      bindinput="onContentInput"
+      placeholder="这一刻，想说点什么..."
+      placeholder-class="textarea-placeholder"
+      maxlength="{{maxLength}}"
+      auto-height
+      show-confirm-bar="{{false}}"
+    />
+    <view class="textarea-count">{{content.length}}/{{maxLength}}</view>
+  </view>
+
+  <!-- ══════════ 拓展功能列表 ══════════ -->
+  <view class="feature-list">
+    <view class="feature-item" bindtap="onChooseLocation">
+      <text class="feature-icon">📍</text>
+      <text class="feature-title">所在位置</text>
+      <text class="feature-hint">{{locationInfo || ''}}</text>
+      <text class="feature-arrow">›</text>
+    </view>
+    <view class="feature-item" bindtap="onGoTopic">
+      <text class="feature-icon">#</text>
+      <text class="feature-title">参与话题</text>
+      <text class="feature-hint">{{selectTopic || '选择合适的话题会有更多赞'}}</text>
+      <text class="feature-arrow">›</text>
+    </view>
+    <view class="feature-item" style="border-bottom:none;" bindtap="onRemind">
+      <text class="feature-icon">@</text>
+      <text class="feature-title">提醒谁看</text>
+      <text class="feature-hint">{{remindUser || '你可以提醒关注的朋友看你的文章'}}</text>
+      <text class="feature-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- ══════════ 底部发布按钮 ══════════ -->
+  <view class="bottom-bar">
+    <view class="submit-btn {{canSubmit ? 'submit-active' : 'submit-disabled'}}" bindtap="submitPublish">
+      <text>发 布</text>
+    </view>
+  </view>
+
+</view>
